@@ -1,0 +1,1 @@
+C:\OneDrive\007FFFLearning\5-day Azure Advanced\Labs\Lab3\ARM-Template-WebandSQL-finalversion\AzureResourceGroup44\obj\Debug\AzureResourceGroup44.deployproj.CoreCompileInputs.cache
