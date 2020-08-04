@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.ShippingPrices\SimplCommerce.Module.ShippingPrices.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.Shipping\SimplCommerce.Module.Shipping.csproj" />
+  </ItemGroup>
+
+</Project>

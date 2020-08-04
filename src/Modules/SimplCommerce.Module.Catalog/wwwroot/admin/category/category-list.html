@@ -1,0 +1,37 @@
+﻿<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{::vm.translate.get('Categories')}}</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a ui-sref="category-create" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {{::vm.translate.get('Create Category')}}</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>{{::vm.translate.get('Name')}}</th>
+        <th class="text-center">{{::vm.translate.get('Include in menu')}}</th>
+        <th>{{::vm.translate.get('Display order')}}</th>
+        <th class="text-center">{{::vm.translate.get('Is Published')}}</th>
+        <th>{{::vm.translate.get('Actions')}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="category in vm.categories">
+        <td>{{category.name}}</td>
+        <td class="text-center"><i ng-attr-class="{{category.includeInMenu && 'fa fa-circle' || 'fa fa-circle-o'}}"></i></td>
+        <td>{{category.displayOrder}}</td>
+        <td class="text-center"><i ng-attr-class="{{category.isPublished && 'fa fa-circle' || 'fa fa-circle-o'}}"></i></td>
+        <td>
+            <a ui-sref="category-edit({id: category.id})" title="Edit" class="btn btn-primary btn-xs"> <span class="glyphicon glyphicon-pencil"></span></a>
+            <button ng-click="vm.deleteCategory(category)" class="btn btn-danger btn-xs delete"> <span class="glyphicon glyphicon-remove"></span></button>
+            <a ui-sref="category-translation({id: category.id, culture: culture})" class="btn btn-default btn-xs btn-translate" ng-repeat="culture in vm.enableCultures"> 
+                <span class="flag flag-{{culture.substr(culture.length - 2).toLowerCase()}}" alt="{{culture}}" title="{{culture}}"></span>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
