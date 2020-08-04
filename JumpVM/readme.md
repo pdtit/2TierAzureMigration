@@ -25,7 +25,7 @@ This template deploys a single Azure Virtual Machine, running the following:
 - azurepowershell 
 - azcopy 
 
-# AZ-203-204 handy tools
+# Other handy tools
 - sql-server-management-studio 
 - nodejs-lts 
 - cosmosdbexplorer 
@@ -36,7 +36,7 @@ This template deploys a single Azure Virtual Machine, running the following:
 
 ## Setup Instructions ##
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpdtit%2FARMTemplates%2Fmaster%2FJumpVM%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https%3A%2F%2Fraw.githubusercontent.com%2Fpdtit%2F2TierAzureMigration%2Fmaster%2FJumpVM%2Fazuredeploy.json)
 
 You can use the "Deploy to Azure" button to have this JumpVM deployed into your Azure subscription right away. 
 
@@ -54,6 +54,6 @@ If your corporate network is blocking firewall port 3389 - Remote Desktop, you c
 
 To deploy this template, repeat the above steps for the "bastion-template.json" ARM template, or use the below button to deploy right away.
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpdtit%2FARMTemplates%2Fmaster%2FJumpVM%2Fbastion-template.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https%3A%2F%2Fraw.githubusercontent.com%2Fpdtit%2F2TierAzureMigration%2Fmaster%2FJumpVM%2Fbastion-template.json)
 
 ** Note: the Azure Bastion deployment can only succeed after the JumpVM deployment is completed successfully.**
