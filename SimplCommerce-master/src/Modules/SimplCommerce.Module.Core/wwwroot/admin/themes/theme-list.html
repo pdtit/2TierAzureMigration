@@ -1,0 +1,35 @@
+﻿<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{::vm.translate.get('Installed themes')}}</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a ui-sref="online-themes" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {{::vm.translate.get('View Online Themes')}}</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div ng-repeat="theme in vm.themes" class="col-xs-6 col-md-4">
+        <div class="thumbnail">
+            <img alt="{{theme.displayName}}" ng-src="{{theme.thumbnailUrl}}">
+            <div class="caption">
+                <h4>{{theme.displayName}}</h4>
+                <p ng-hide="theme.isCurrent">
+                    <button class="btn btn-default" role="button" ng-click="vm.useTheme(theme)">{{::vm.translate.get('Use')}}</button>
+                    <button ng-hide="theme.name === vm.previewingTheme" class="btn btn-default" role="button" ng-click="vm.previewTheme(theme)">{{::vm.translate.get('Preview')}}</button>
+                    <button ng-show="theme.name === vm.previewingTheme" class="btn btn-primary" role="button" ng-click="vm.cancelPreviewTheme(theme)">{{::vm.translate.get('Cancel Preview')}}</button>
+                    <button ng-if="theme.name !== 'Generic'" class="btn btn-default" role="button" ng-click="vm.downloadTheme(theme)">{{::vm.translate.get('Download')}}</button>
+                    <button ng-if="theme.name !== 'Generic'" class="btn btn-default" role="button" ng-click="vm.deleteTheme(theme)">{{::vm.translate.get('Delete')}}</button>
+                </p>
+                <p ng-show="theme.isCurrent">
+                    <button type="button" disabled="disabled" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{::vm.translate.get('Current theme')}}
+                    </button>
+                    <button ng-if="theme.name !== 'Generic'" class="btn btn-default" role="button" ng-click="vm.downloadTheme(theme)">{{::vm.translate.get('Download')}}</button>
+                </p>
+
+            </div>
+         </div>
+    </div>
+</div>

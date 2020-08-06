@@ -1,0 +1,123 @@
+﻿@using Humanizer;
+@using SimplCommerce.Module.Reviews.Areas.Reviews.ViewModels
+
+@model SimplCommerce.Module.Reviews.Areas.Reviews.ViewModels.ReviewVm
+
+<div class="reviews-module">
+    <div class="rating-summary">
+        @if (Model.ReviewsCount > 0)
+        {
+            <div class="row">
+                <div class="col-md-5">
+                    <h5>@Localizer["Rating average"]</h5>
+                    <p class="rating-average">@(Math.Round(Model.RatingAverage, 1))/5</p>
+                    <p>(@Model.ReviewsCount @Localizer["reviews"])</p>
+                </div>
+                <div class="col-md-7">
+                    <div class="rating-item">
+                        <span>5 @Localizer["stars"]</span>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="@Model.GetRatingPercent(Model.Rating5Count)" aria-valuemin="0" aria-valuemax="100" style="width: @Model.GetRatingPercent(Model.Rating5Count)%">
+                            </div>
+                        </div>
+                        <span>@Model.Rating5Count</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>4 @Localizer["stars"]</span>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="@Model.GetRatingPercent(Model.Rating4Count)" aria-valuemin="0" aria-valuemax="100" style="width: @Model.GetRatingPercent(Model.Rating4Count)%">
+                            </div>
+                        </div>
+                        <span>@Model.Rating4Count</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>3 @Localizer["stars"]</span>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="@Model.GetRatingPercent(Model.Rating3Count)" aria-valuemin="0" aria-valuemax="100" style="width: @Model.GetRatingPercent(Model.Rating3Count)%">
+                            </div>
+                        </div>
+                        <span>@Model.Rating3Count</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>2 @Localizer["stars"]</span>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="@Model.GetRatingPercent(Model.Rating2Count)" aria-valuemin="0" aria-valuemax="100" style="width: @Model.GetRatingPercent(Model.Rating2Count)%">
+                            </div>
+                        </div>
+                        <span>@Model.Rating2Count</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>1 @Localizer["stars"]</span>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="@Model.GetRatingPercent(Model.Rating1Count)" aria-valuemin="0" aria-valuemax="100" style="width: @Model.GetRatingPercent(Model.Rating1Count)%">
+                            </div>
+                        </div>
+                        <span>@Model.Rating1Count</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div id="addreview">
+        @if (Model.HasBoughtProduct)
+        {
+            <partial name="/Areas/Reviews/Views/Review/_ReviewForm.cshtml" model="new ReviewForm { EntityTypeId = Model.EntityTypeId, EntityId = Model.EntityId }" />
+        }
+        else
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                <p>@Localizer["Submiting review is only enable for users who have bought this product"]</p>
+            }
+            else
+            {
+                <p>Please <a href="~/login?ReturnUrl=@Context.Request.Path">login</a> or <a href="~/register?ReturnUrl=@Context.Request.Path">register</a> to submit your review.
+                Please also note that submiting review is only enable for users who have bought this product</p>
+            }
+        }
+
+    </div>
+    <hr />
+    <div id="reviews" class="review-item-list">
+        @if (Model.ReviewsCount > 0)
+        {
+            foreach (var review in Model.Items.Data)
+            {
+                <div>
+                    <div>
+                        <div class="review-star badge">
+                            <input type="hidden" value="@review.Rating" readonly="readonly" class="rating-loading" step="1" data-size="xs" data-show-clear="false" data-show-caption="false" />
+                        </div>
+                        <span class="review-title">@review.Title</span>
+                    </div>
+                    <div>@review.Comment</div>
+                    <div>By <strong>@review.ReviewerName</strong> on <span>@review.CreatedOn.Humanize()</span>  -
+                        <button class="btn-add-review-reply btn btn-link" data-toggle="collapse" data-target="#reviewReply@(review.Id)" aria-expanded="false" aria-controls="reviewReply@(review.Id)">@Localizer["Add Reply"]</button>
+                    </div>
+                    <div class="review-replies">
+                        @foreach (var reply in review.Replies)
+                        {
+                            <div class="review-reply">
+                                <div>@reply.Comment</div>
+                                <div>By: <strong>@reply.ReplierName</strong> on <span>@reply.CreatedOn.Humanize()</span></div>
+                            </div>
+                        }
+                        <div>
+                            <div class="add-review-reply mt-3 collapse" id="reviewReply@(review.Id)">
+                                <partial name="/Areas/Reviews/Views/Reply/_ReplyForm.cshtml" model="new ReplyForm { ReviewId = review.Id }" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <a asp-controller="Review"
+               asp-action="List"
+               asp-area="Reviews"
+               asp-route-entityId="@Model.EntityId"
+               asp-route-entityTypeId="@Model.EntityTypeId"
+               asp-route-pageNumber="1"
+               asp-route-pageSize="25">View all @Model.ReviewsCount reviews</a>
+        }
+    </div>
+</div>

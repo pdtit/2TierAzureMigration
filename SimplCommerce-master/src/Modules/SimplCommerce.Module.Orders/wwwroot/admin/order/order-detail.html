@@ -1,0 +1,247 @@
+﻿<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{::vm.translate.get('Order Details')}}: #{{vm.order.id}}</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a href="/api/invoices/print/{{vm.order.id}}" target="_blank" class="btn btn-info"><span class="glyphicon glyphicon-download-alt"></span> {{::vm.translate.get('Download Invoice')}}</a>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{::vm.translate.get('Order & Customer Information')}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Order #{{vm.order.id}}</h5>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Order Date</td>
+                        <td>{{vm.order.createdOn | date:'medium'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Order Status</td>
+                        <td>{{vm.order.orderStatusString}}</td>
+                    </tr>
+                    <tr>
+                        <td>Order Total</td>
+                        <td>{{vm.order.orderTotalString}}</td>
+                    </tr>
+                    <tr ng-if="vm.order.isMasterOrder">
+                        <td>Sub Orders</td>
+                        <td>
+                            <ul class="list-inline">
+                                <li ng-repeat="id in vm.order.subOrderIds">
+                                    <a ui-sref="order-detail({id: id})">order #{{id}}</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5>Customer Information</h5>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Customer Name</td>
+                        <td><a ui-sref="user-edit({id: vm.order.customerId})">{{vm.order.customerName}}</a></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{vm.order.customerEmail}}</td>
+                    </tr>
+                    <tr>
+                        <td>Customer Group</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{::vm.translate.get('Address Information')}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Billing Address</h5>
+            </div>
+            <div class="col-md-6">
+                <h5>Shipping Address</h5>
+                <p>
+                    <strong>{{vm.order.shippingAddress.contactName}}</strong> <br />
+                    {{vm.order.shippingAddress.addressLine1}} <br />
+                    {{vm.order.shippingAddress.addressLine2}} <br />
+                    Phone: {{vm.order.shippingAddress.phone}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{::vm.translate.get('Product Information')}}</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped order-item-list">
+            <thead>
+                <tr>
+                    <th>{{::vm.translate.get('Product')}}</th>
+                    <th class="text-right">{{::vm.translate.get('Price')}}</th>
+                    <th class="text-right">{{::vm.translate.get('Quantity')}}</th>
+                    <th class="text-right">{{::vm.translate.get('Total')}}</th>
+                    <th class="text-right">{{::vm.translate.get('Tax Amount')}}</th>
+                    <th class="text-right">{{::vm.translate.get('Tax Percent')}}</th>
+                    <th class="text-right">{{::vm.translate.get('Discount Amount')}}</th>
+                    <th class="text-right">{{::vm.translate.get('Row Total')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vm.order.orderItems">
+                    <td>
+                        <a ui-sref="product-edit({id: item.productId})">{{item.productName}}</a>
+                        <ul ng-if="item.variationOptions.length > 0" class="list-unstyled">
+                            <li ng-repeat="opt in item.variationOptions">
+                                <span>{{opt.optionName}}:</span> {{opt.value}}
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="text-right">{{item.productPriceString}}</td>
+                    <td class="text-right">
+                        Ordered {{item.quantity}}<span ng-if="item.shippedQuantity"><br />Shipped {{item.shippedQuantity}}</span>
+                    </td>
+                    <td class="text-right">{{item.totalString}}</td>
+                    <td class="text-right">{{item.taxAmountString}}</td>
+                    <td class="text-right">{{item.taxPercent}}</td>
+                    <td class="text-right">{{item.discountAmountString}}</td>
+                    <td class="text-right">{{item.rowTotalString}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{::vm.translate.get('Order Note')}}</h3>
+    </div>
+    <div class="panel-body">
+        {{vm.order.orderNote}}
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{::vm.translate.get('Payment & Shipping Method')}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Payment: {{vm.order.paymentMethod}}</h5>
+                <payment-list-by-order order-id="vm.orderId"></payment-list-by-order>
+            </div>
+            <div class="col-md-6">
+                <h5>Shipping: {{vm.order.shippingMethod}}</h5>
+                <shipment-list-by-order order-id="vm.orderId"></shipment-list-by-order>
+                <div class="text-right"><button class="btn btn-default" ui-sref="shipment-create({orderId: vm.order.id})">Add Shipment</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{::vm.translate.get('Order Total & Action')}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>History & Action</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{::vm.translate.get('Date')}}</th>
+                            <th>{{::vm.translate.get('Status')}}</th>
+                            <th>{{::vm.translate.get('Changed by')}}</th>
+                            <th>{{::vm.translate.get('Note')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.orderHistories">
+                            <td>{{item.createdOn | date:'medium'}}</td>
+                            <td><span ng-if="item.oldStatus">{{item.oldStatus}} &rarr; </span>{{item.newStatus}}</td>
+                            <td>
+                                <a ng-if="item.createdById >= 10" ui-sref="user-edit({id: item.createdById})">{{item.createdByFullName}}</a>
+                                <span ng-if="item.createdById < 10">{{item.createdByFullName}}</span>
+                            </td>
+                            <td>{{item.note}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form name="orderStatusForm" class="form-horizontal">
+                    <div class="col-sm-offset-2 bg-danger" ng-show="vm.validationErrors">
+                        <ul>
+                            <li ng-repeat="error in vm.validationErrors">{{error}}</li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{::vm.translate.get('Order Status')}}</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" ng-model="vm.order.orderStatus" ng-options="s.id as s.name for s in vm.orderStatus"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{::vm.translate.get('Note')}}</label>
+                        <div class="col-sm-10">
+                            <textarea name="description" ng-model="vm.orderStatusNote" rows="3" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-primary" ng-click="vm.changeOrderStatus()"><span class="glyphicon glyphicon-ok"></span> {{::vm.translate.get('Save')}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <tr>
+                        <td>Subtotal</td>
+                        <td class="text-right">{{vm.order.subtotalString}}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipping</td>
+                        <td class="text-right">{{vm.order.shippingAmountString}}</td>
+                    </tr>
+                    <tr>
+                        <td>Tax</td>
+                        <td class="text-right">{{vm.order.taxAmountString}}</td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td class="text-right">{{vm.order.discountAmountString}}</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Fee</td>
+                        <td class="text-right">{{vm.order.paymentFeeAmountString}}</td>
+                    </tr>
+                    <tr>
+                        <td>Order Total</td>
+                        <td class="text-right"><strong>{{vm.order.orderTotalString}}</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <button ui-sref="order" class="btn btn-default">{{::vm.translate.get('Back')}}</button>
+</div>

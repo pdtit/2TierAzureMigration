@@ -1,0 +1,35 @@
+﻿<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{::vm.translate.get('Pages')}}</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a ui-sref="page-create" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {{::vm.translate.get('Create Page')}}</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>{{::vm.translate.get('Name')}}</th>
+        <th>Url</th>
+        <th class="text-center">{{::vm.translate.get('Is Published')}}</th>
+        <th>{{::vm.translate.get('Actions')}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="page in vm.pages">
+        <td>{{page.name}}</td>
+        <td>{{page.slug}}</td>
+        <td class="text-center"><i ng-attr-class="{{page.isPublished && 'fa fa-circle' || 'fa fa-circle-o'}}"></i></td>
+        <td>
+            <a ui-sref="page-edit({id: page.id})" title="Edit" class="btn btn-primary btn-xs"> <span class="glyphicon glyphicon-pencil"></span></a>
+            <button ng-click="vm.deletePage(page)" class="btn btn-danger btn-xs delete"> <span class="glyphicon glyphicon-remove"></span></button>
+            <a ui-sref="page-translation({id: page.id, culture: culture})" class="btn btn-default btn-xs btn-translate" ng-repeat="culture in vm.enableCultures"> 
+                <span class="flag flag-{{culture.substr(culture.length - 2).toLowerCase()}}" alt="{{culture}}" title="{{culture}}"></span>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>

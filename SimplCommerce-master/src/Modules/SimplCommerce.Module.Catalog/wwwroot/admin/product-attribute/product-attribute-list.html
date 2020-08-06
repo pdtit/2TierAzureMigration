@@ -1,0 +1,30 @@
+﻿<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{::vm.translate.get('Product Attributes')}}</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a ui-sref="product-attribute-create" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {{::vm.translate.get('Create Product Attribute')}}</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-condensed table-striped">
+    <thead>
+    <tr>
+        <th>{{::vm.translate.get('Name')}}</th>
+        <th>{{::vm.translate.get('Group')}}</th>
+        <th>{{::vm.translate.get('Actions')}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="attribute in vm.productAttributes">
+        <td>{{attribute.name}}</td>
+        <td>{{attribute.groupName}}</td>
+        <td>
+           <a ui-sref="product-attribute-edit({id: attribute.id})" title="Edit" class="btn btn-primary btn-xs"> <span class="glyphicon glyphicon-pencil"></span></a>
+             <!--<button ng-click="vm.deleteProductAttribute(attribute)" class="btn btn-danger btn-xs delete"> <span class="glyphicon glyphicon-remove"></span></button>-->
+        </td>
+    </tr>
+    </tbody>
+</table>
