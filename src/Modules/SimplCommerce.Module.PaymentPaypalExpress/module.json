@@ -1,6 +1,0 @@
-{
-  "id": "SimplCommerce.Module.PaymentPaypalExpress",
-  "name": "Paypal Express Payment",
-  "isBundledWithHost": true,
-  "version": "1.0.0"
-}

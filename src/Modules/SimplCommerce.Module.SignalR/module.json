@@ -1,6 +1,0 @@
-{
-  "id": "SimplCommerce.Module.SignalR",
-  "name": "SignalR RealTime",
-  "isBundledWithHost": true,
-  "version": "1.0.0"
-}
