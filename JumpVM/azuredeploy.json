@@ -34,7 +34,7 @@
     "publicIPAddressType": "static",
     "vhdStorageContainerName": "vhds",
     "vmName": "jumpvm",
-    "vmSize": "Standard_DS2_V2",
+    "vmSize": "Standard_D2S_V3",
     "virtualNetworkName": "jumpvmVNet",
     "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
