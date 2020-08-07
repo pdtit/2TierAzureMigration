@@ -36,7 +36,7 @@ choco install servicebusexplorer -confirm:$false
 # Install 7-Zip
 choco install 7zip -confirm:$false
 # Install Docker Desktop
-choco install docker-desktop -confirm:$false
+# choco install docker-desktop -confirm:$false
 # Install Foxit Reader
 choco install foxitreader -confirm:$false
 # Install Google Chrome
