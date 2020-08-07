@@ -190,7 +190,7 @@
               "autoUpgradeMinorVersion":true,
               "settings": {
                   "fileUris": [
-                     "https://raw.githubusercontent.com/pdtit/ARMtemplates/master/JumpVM/configurevm.ps1"
+                     "https://raw.githubusercontent.com/pdtit/2TierAzureMigration/master/JumpVM/configurevm.ps1"
                   ],
                   "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File configurevm.ps1"
               }
