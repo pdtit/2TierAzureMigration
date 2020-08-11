@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: anothercontapp2
+spec:
+  replicas: 5
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: anothercontapp2
+    spec:
+      containers:
+      - name: anothercontapp2
+        image: pdtsimplacr.azurecr.io/simplcommerce:latest      #refers to the ACR and container image you want to publish to AKS
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: acr-auth    #refers to the kubectl RBAC account you create, having the necessary permissions to pull from ACR
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anothercontapp2
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: anothercontapp2
