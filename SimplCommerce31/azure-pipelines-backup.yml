@@ -1,0 +1,43 @@
+trigger:
+  branches:
+    include:
+    - master
+variables:
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: Any CPU
+- name: buildConfiguration
+  value: Release
+stages:
+- stage: __default
+  jobs:
+  - job: Job
+    pool:
+      vmImage: windows-latest
+    steps:
+    - task: NuGetToolInstaller@1
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: $(solution)
+    - task: VSBuild@1
+      inputs:
+        solution: $(solution)
+        msbuildArgs: /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl="$(Agent.TempDirectory)\WebAppContent\\"
+        platform: $(buildPlatform)
+        configuration: $(buildConfiguration)
+    - task: ArchiveFiles@2
+      displayName: Archive Files
+      inputs:
+        rootFolderOrFile: $(Agent.TempDirectory)\WebAppContent
+        includeRootFolder: false
+    - task: VSTest@2
+      inputs:
+        platform: $(buildPlatform)
+        configuration: $(buildConfiguration)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
+        ArtifactName: drop
+        publishLocation: Container
+
